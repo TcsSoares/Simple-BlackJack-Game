@@ -24,24 +24,24 @@ while(True):
         packCards = [] # Playing Cards.
         my,dealer = [],[] # Cards of Each Player.
         dealerScore = myScore = 0 # Score of Each Player.
-        suit,num = ["\u2665","\u2660","\u2666","\u2663"],["A","2","3","4","5","6","7","8","9","10","J","Q","K"] # Cards Attribute
+        suits,values = ["\u2665","\u2660","\u2666","\u2663"],["A","2","3","4","5","6","7","8","9","10","J","Q","K"] # Cards Attribute
 
         # Cards Generator
-        for i in range (len(num)):
-                for j in range (len(suit)):
-                        packCards.append(num[i] + suit[j])
+        for value in values:
+                for suit in suits:
+                        packCards.append(value + suit)
                 shuffle(packCards)
 
         # Score Counter
         def score(player):
                 score = 0
-                for i in range (len(player)):
-                        if(player[i][0] == "J" or player[i][0] == "Q" or player[i][0] == "K" or player[i][0] == "1"):
+                for card in player:
+                        if(card[0] == "J" or card[0] == "Q" or card[0] == "K" or card[0] == "1"):
                                 score += 10
-                        elif(player[i][0] == "A"):
+                        elif(card[0] == "A"):
                                 score += 11
                         else:
-                                score += int(player[i][0])
+                                score += int(card[0])
                 for card in player:
                         if(card[0] == "A" and score > 21):
                                 score -= 10
@@ -103,8 +103,8 @@ while(True):
                                 print("Your Cards:  ",end="")
                         elif(language == "2"):
                                 print("Suas Cartas São:  ",end="")
-                        for i in range(len(my)):
-                                print(my[i],end="  ")
+                        for card in my:
+                                print(card,end="  ")
                         if(language == "1"):
                                 print("\nYour Score: %s" %myScore)
                                 print("\nDealer's Cards:  %s   **" %dealer[0])
@@ -144,8 +144,8 @@ while(True):
                                         print("Dealer's Cards:  ",end="")
                                 elif(language == "2"):
                                         print("Cartas Do Dealer:  ",end="")
-                                for i in range (len(dealer)):
-                                        print(dealer[i],end="  ")
+                                for card in dealer:
+                                        print(card,end="  ")
                                 print()
                 else:
                         break
