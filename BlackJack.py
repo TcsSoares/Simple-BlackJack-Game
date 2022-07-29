@@ -1,110 +1,112 @@
-from random import choice
+# Imports
+from random import shuffle
 from os import system
+
+# Main Game Loop
 while(True):
-        baralho,nrpt,meu,dealer=[],[],[],[]
-        dpts=mpts=x=AA=BB=a=0
-        naipe,num=("\u2665","\u2660","\u2666","\u2663"),("A","2","3","4","5","6","7","8","9","10","J","Q","K")
-        while(x<52):
-                carta=choice(num)+choice(naipe)
-                if(not carta in nrpt):
-                        baralho.append(carta),nrpt.append(carta)
-                        x+=1
-        def conta (A,B):
-                soma=0
-                if(A[B][0]=="J" or A[B][0]=="Q" or A[B][0]=="K"):
-                        soma+=10
-                elif(A[B][0]=="A"):
-                        soma+=11
-                elif(A[B][0]=="1"):
-                        soma+=10
-                elif(A[B][0]!="A" and A[B][0]!="J" and A[B][0]!="Q" and A[B][0]!="K"):
-                        soma+=int(A[B][0])
-                return soma
-        for x in range (2):
-                meu.append(baralho[0]),baralho.pop(0),dealer.append(baralho[0]),baralho.pop(0)
-                mpts+=conta(meu,x)
-                if(meu[x][0]=="A"):
-                        AA+=1
-                dpts+=conta(dealer,x)
-                if(dealer[x][0]=="A"):
-                        BB+=1
-        print("Suas Cartas Iniciais São:  %s e %s."%(meu[0],meu[1]))
-        print("Você Possui: %s Pontos."%mpts)
-        if(mpts==21):
-                print("\nBlackJack !")
-                mpts="BlackJack"
-        elif(dpts==21):
-                print("\nO Dealer Conseguiu Um  BlackJack !")
-                dpts="BlackJack"
-        elif(True):
-                print("Cartas Do Dealer:  %s e **."%dealer[0])
-        while(mpts!="BlackJack" and dpts!="BlackJack"):
-                if(mpts<=21 and dpts<=21):
-                        escolha=input("\nInsira:\n ( c ) Para Pegar Uma Carta.\n ( p ) Para Parar.\n ( s ) Para Sair Do Jogo.\n")
-                        if(escolha=="c"):
-                                meu.append(baralho[0]),baralho.pop(0)
-                                if(meu[len(meu)-1][0]=="A"):
-                                        AA+=1
-                                print("Suas Cartas São:  ",end="")
-                                for x in range(len(meu)):
-                                        print(meu[x],end="  ")
-                                mpts+=conta(meu,len(meu)-1)
-                                if(AA>=1 and mpts>21):
-                                        mpts-=10
-                                        AA-=1
-                                system('cls')
-                                print(".\nVocê Possui: %s Pontos."%mpts)
-                        elif(escolha=="p"):
-                                system('cls')
-                                print("Você Parou Com %s Pontos."%mpts)
-                                break
-                        elif(escolha=="s"):
-                                exit()
+        packCards = [] # Playing Cards.
+        my,dealer = [],[] # Cards of Each Player.
+        dealerScore = myScore = 0 # Score of Each Player.
+        suit,num = ["\u2665","\u2660","\u2666","\u2663"],["A","2","3","4","5","6","7","8","9","10","J","Q","K"] # Cards Attribute
+
+        # Cards Generator
+        for i in range (len(num)):
+                for j in range (len(suit)):
+                        packCards.append(num[i] + suit[j])
+                shuffle(packCards)
+
+        # Score Counter
+        def score(player):
+                score = 0
+                for i in range (len(player)):
+                        if(player[i][0] == "J" or player[i][0] == "Q" or player[i][0] == "K" or player[i][0] == "1"):
+                                score += 10
+                        elif(player[i][0] == "A"):
+                                score += 11
                         else:
-                                system('cls')
-                                print("Suas Cartas São:  ",end="")
-                                for x in range(len(meu)):
-                                        print(meu[x],end="  ")
-                                print(".\nVocê Possui: %s Pontos."%mpts)
-                                print("Cartas Do Dealer:  %s e **."%dealer[0])
-                        if(mpts!="BlackJack" and mpts>21):
-                                print("\n\nO Dealer tem: %s Pontos.\n Você Tem: %s Pontos."%(dpts,mpts))
-                                print("\nO Dealer Venceu !")
-                                x=111
-                                break
-                else:
-                        break
-        if(mpts!="BlackJack" and dpts!="BlackJack"):
-                if(mpts<=21):
-                        print("\nVez Do Dealer...")
-                        print("Cartas Do Dealer Viradas: %s e %s"%(dealer[0],dealer[1]))
-        while(mpts!="BlackJack" and dpts!="BlackJack"):
-                if(mpts<=21 and dpts<=21):
-                        if((((dpts > mpts or dpts == mpts) and dpts > 11) or dpts >= 18) and dpts <= 21):
-                                print("\nO Dealer Parou !")
-                                break
-                        else:
-                                print("\nO Dealer Pegou Uma Carta !")
-                                dealer.append(baralho[0]),baralho.pop(0)
-                                if(dealer[len(dealer)-1][0]=="A"):
-                                        BB+=1
-                                dpts+=conta(dealer,len(dealer)-1)
-                                if(BB>=1 and dpts>21):
-                                        dpts-=10
-                                        BB-=1
-                                print("Cartas Do Dealer:  ",end="")
-                                for x in range (len(dealer)):
-                                        print(dealer[x],end="  ")
-                else:
-                        break
-        if(x!=111 and (mpts!="BlackJack" and dpts!="BlackJack")):
-                print("\n\nO Dealer tem: %s Pontos.\nVocê Tem: %s Pontos."%(dpts,mpts))
-        if(mpts!="BlackJack" and dpts!="BlackJack"):
-                if(dpts>mpts and dpts<=21):
-                        print("\nO Dealer Venceu !")
-                elif((mpts>dpts or dpts>21) and mpts<=21):
-                        print("\nVocê Venceu !")
-                elif(mpts==dpts):
-                        print("\nO jogo empatou !")
-        input("\n\n( Pressione Qualquer Botão Para Jogar Novamente... )")
+                                score += int(player[i][0])
+                for card in player:
+                        if(card[0] == "A" and score > 21):
+                                score -= 10
+                return score
+
+        # Starting Hand Generator
+        for i in range (2):
+                my.append(packCards[0]) , packCards.pop(0)
+                dealer.append(packCards[0]) , packCards.pop(0)
+
+                myScore = score(my)
+                dealerScore = score(dealer)
+
+        # Starting Hand Announcement
         system('cls')
+        print("Your Cards:  %s  %s" %(my[0],my[1]))
+        print("Your Score: %s" %myScore)
+        print("\nDealer's Cards:  %s   **" %dealer[0])
+        if(myScore == 21):
+                print("\nYou Got a BlackJack !")
+                myScore="BlackJack"
+        elif(dealerScore == 21):
+                print("\nThe Dealer Got a BlackJack !")
+                dealerScore="BlackJack"
+        
+        # Player Turn Loop
+        while(myScore != "BlackJack" and dealerScore != "BlackJack"):
+                if(myScore <= 21 and dealerScore <= 21):
+                        case=input("\nInsert:\n ( c ) to Pick up a Card.\n ( p ) to Stop.\n ( s ) to Exit.\n")
+                        if(case == "c"):
+                                system('cls')
+                                my.append(packCards[0]) , packCards.pop(0)
+                                myScore = score(my)
+                        elif(case == "p"):
+                                system('cls')
+                                print("You Stop With: %s " %myScore)
+                                break
+                        elif(case == "s"):
+                                exit()
+                        system('cls')
+                        print("Your Cards:  ",end="")
+                        for i in range(len(my)):
+                                print(my[i],end="  ")
+                        print("\nYour Score: %s" %myScore)
+                        print("\nDealer's Cards:  %s   **" %dealer[0])
+                else:
+                        break
+        
+        # Dealer's Turn Announcement
+        if(myScore != "BlackJack" and dealerScore != "BlackJack"):
+                if(myScore <= 21):
+                        print("\nDealer's Turn !")
+                        print("\nDealer Cards: %s e %s" %(dealer[0],dealer[1]))
+
+        # Dealer's Turn Loop
+        while(myScore != "BlackJack" and dealerScore != "BlackJack"):
+                if(myScore <= 21 and dealerScore <= 21):
+                        if((((dealerScore > myScore or dealerScore == myScore) and dealerScore > 11) or dealerScore >= 18) and dealerScore <= 21):
+                                print("\nThe Dealer Stop !")
+                                break
+                        else:
+                                print("\nThe Dealer Pick up a Card !")
+                                dealer.append(packCards[0]) , packCards.pop(0)
+                                dealerScore = score(dealer)
+                                print("Dealer's Cards:  ",end="")
+                                for i in range (len(dealer)):
+                                        print(dealer[i],end="  ")
+                                print()
+                else:
+                        break
+
+        # End Game Conditional
+        if(myScore != "BlackJack" and dealerScore != "BlackJack"):
+                input("\n\n( continue... )")
+                system('cls')
+                print("Dealer's Score: %s.\nYour Score: %s" %(dealerScore,myScore))
+                if((dealerScore > myScore and dealerScore <= 21) or (myScore > 21)):
+                        print("\nDealer Wins !")
+                elif((myScore > dealerScore or dealerScore > 21) and myScore <= 21):
+                        print("\nYou Win !")
+                elif(myScore == dealerScore):
+                        print("\nDraw !")
+
+        # Input to Hold the Loop
+        input("\n\n( Press any Key to Play Again... )")

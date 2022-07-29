@@ -1,2 +1,5 @@
 # Simple-BlackJack-Game
-Simple BlackJack Game made in Python
+Simple Commented BlackJack Game made in Python 3.10
+
+### Required: 
+- Python 3.10
