@@ -2,8 +2,25 @@
 from random import shuffle
 from os import system
 
+system('cls')
+
+#Language Select
+while(True):
+        print("Choose Your Language: \n")
+        print("Insert ( 1 ) to select English ( not revised )\nInsert ( 2 ) to select Portuguese")
+        language = input()
+        if(language == "1" or language == "2"):
+                break
+        else:
+                system('cls')
+                print("Error: Invalid Arguments")
+                input("\n( Continue... )")
+                system('cls')
+
 # Main Game Loop
 while(True):
+
+        #Variables
         packCards = [] # Playing Cards.
         my,dealer = [],[] # Cards of Each Player.
         dealerScore = myScore = 0 # Score of Each Player.
@@ -40,56 +57,93 @@ while(True):
 
         # Starting Hand Announcement
         system('cls')
-        print("Your Cards:  %s  %s" %(my[0],my[1]))
-        print("Your Score: %s" %myScore)
-        print("\nDealer's Cards:  %s   **" %dealer[0])
+        if(language == "1"):
+                print("Your Cards:  %s  %s" %(my[0],my[1]))
+                print("Your Score: %s" %myScore)
+                print("\nDealer's Cards:  %s   **" %dealer[0])
+        elif(language == "2"):
+                print("Suas Cartas Iniciais São:  %s  %s" %(my[0],my[1]))
+                print("Você Possui %s Pontos" %myScore)
+                print("\nCartas Do Dealer:  %s  **" %dealer[0])
         if(myScore == 21):
-                print("\nYou Got a BlackJack !")
+                if(language == "1"):
+                        print("\nYou Got a BlackJack !")
+                elif(language == "2"):
+                        print("\nVocê Conseguiu um BlackJack !")
                 myScore="BlackJack"
         elif(dealerScore == 21):
-                print("\nThe Dealer Got a BlackJack !")
+                if(language == "1"):
+                        print("\nThe Dealer Got a BlackJack !")
+                elif(language == "2"):
+                        print("\nO Dealer Conseguiu Um  BlackJack !")
                 dealerScore="BlackJack"
         
         # Player Turn Loop
         while(myScore != "BlackJack" and dealerScore != "BlackJack"):
                 if(myScore <= 21 and dealerScore <= 21):
-                        case=input("\nInsert:\n ( c ) to Pick up a Card.\n ( p ) to Stop.\n ( s ) to Exit.\n")
+                        if(language == "1"):
+                                case=input("\nInsert:\n ( c ) to Pick up a Card.\n ( p ) to Stop.\n ( s ) to Exit.\n")
+                        elif(language == "2"):
+                                case=input("\nInsira:\n ( c ) Para Pegar Uma Carta.\n ( p ) Para Parar.\n ( s ) Para Sair Do Jogo.\n")
                         if(case == "c"):
                                 system('cls')
                                 my.append(packCards[0]) , packCards.pop(0)
                                 myScore = score(my)
                         elif(case == "p"):
                                 system('cls')
-                                print("You Stop With: %s " %myScore)
+                                if(language == "1"):
+                                        print("You Stop With: %s" %myScore)
+                                elif(language == "2"):
+                                        print("Você Parou Com %s Pontos" %myScore)
                                 break
                         elif(case == "s"):
                                 exit()
                         system('cls')
-                        print("Your Cards:  ",end="")
+                        if(language == "1"):
+                                print("Your Cards:  ",end="")
+                        elif(language == "2"):
+                                print("Suas Cartas São:  ",end="")
                         for i in range(len(my)):
                                 print(my[i],end="  ")
-                        print("\nYour Score: %s" %myScore)
-                        print("\nDealer's Cards:  %s   **" %dealer[0])
+                        if(language == "1"):
+                                print("\nYour Score: %s" %myScore)
+                                print("\nDealer's Cards:  %s   **" %dealer[0])
+                        elif(language == "2"):
+                                print(".\nVocê Possui %s Pontos" %myScore)
+                                print("\nCartas Do Dealer:  %s  **" %dealer[0])
                 else:
                         break
         
         # Dealer's Turn Announcement
         if(myScore != "BlackJack" and dealerScore != "BlackJack"):
                 if(myScore <= 21):
-                        print("\nDealer's Turn !")
-                        print("\nDealer Cards: %s e %s" %(dealer[0],dealer[1]))
+                        if(language == "1"):
+                                print("\nDealer's Turn !")
+                                print("\nDealer Cards:  %s  %s" %(dealer[0],dealer[1]))
+                        elif(language == "2"):
+                                print("\nVez Do Dealer !")
+                                print("\nCartas Do Dealer Viradas:  %s  %s" %(dealer[0],dealer[1]))
 
         # Dealer's Turn Loop
         while(myScore != "BlackJack" and dealerScore != "BlackJack"):
                 if(myScore <= 21 and dealerScore <= 21):
                         if((((dealerScore > myScore or dealerScore == myScore) and dealerScore > 11) or dealerScore >= 18) and dealerScore <= 21):
-                                print("\nThe Dealer Stop !")
+                                if(language == "1"):
+                                        print("\nThe Dealer Stop !")
+                                elif(language == "2"):
+                                        print("\nO Dealer Parou !")
                                 break
                         else:
-                                print("\nThe Dealer Pick up a Card !")
+                                if(language == "1"):
+                                        print("\nThe Dealer Pick up a Card !")
+                                elif(language == "2"):
+                                        print("\nO Dealer Pegou Uma Carta !")
                                 dealer.append(packCards[0]) , packCards.pop(0)
                                 dealerScore = score(dealer)
-                                print("Dealer's Cards:  ",end="")
+                                if(language == "1"):
+                                        print("Dealer's Cards:  ",end="")
+                                elif(language == "2"):
+                                        print("Cartas Do Dealer:  ",end="")
                                 for i in range (len(dealer)):
                                         print(dealer[i],end="  ")
                                 print()
@@ -98,15 +152,33 @@ while(True):
 
         # End Game Conditional
         if(myScore != "BlackJack" and dealerScore != "BlackJack"):
-                input("\n\n( continue... )")
+                if(language == "1"):
+                        input("\n\n( Continue... )")
+                elif(language == "2"):
+                        input("\n\n( Continuar... )")
                 system('cls')
-                print("Dealer's Score: %s.\nYour Score: %s" %(dealerScore,myScore))
+                if(language == "1"):
+                        print("Dealer's Score: %s\nYour Score: %s" %(dealerScore,myScore))
+                elif(language == "2"):
+                        print("O Dealer tem %s Pontos\nVocê Tem %s Pontos" %(dealerScore,myScore))
                 if((dealerScore > myScore and dealerScore <= 21) or (myScore > 21)):
-                        print("\nDealer Wins !")
+                        if(language == "1"):
+                                print("\nDealer Wins !")
+                        elif(language == "2"):
+                                print("\nO Dealer Venceu !")
                 elif((myScore > dealerScore or dealerScore > 21) and myScore <= 21):
-                        print("\nYou Win !")
+                        if(language == "1"):
+                                print("\nYou Win !")
+                        elif(language == "2"):
+                                print("\nVocê Venceu !")
                 elif(myScore == dealerScore):
-                        print("\nDraw !")
+                        if(language == "1"):
+                                print("\nDraw !")
+                        elif(language == "2"):
+                                print("\nO jogo empatou !")
 
         # Input to Hold the Loop
-        input("\n\n( Press any Key to Play Again... )")
+        if(language == "1"):
+                input("\n\n( Press any Key to Play Again... )")
+        elif(language == "2"):
+                input("\n\n( Pressione Qualquer Botão Para Jogar Novamente... )")
